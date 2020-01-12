@@ -1,0 +1,17 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: shop-eureka-server
+
+eureka:
+  #eureka服务端的实例名称
+  hostname: 127.0.0.1
+  client:
+    #是否将自己注册到eureka中
+    register‐with‐eureka: false
+    #是否从eureka中获取信息
+    fetch‐registry: false
+    service‐url:
+      defaultZone: http://${eureka.hostname}:${server.port}/eureka/

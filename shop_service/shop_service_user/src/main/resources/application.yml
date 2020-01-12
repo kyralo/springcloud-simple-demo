@@ -1,0 +1,15 @@
+server:
+  port: 8889
+
+spring:
+  application:
+    name: shop-service-user
+
+eureka:
+  instance:
+    #eureka服务端的实例名称
+    hostname: 127.0.0.1
+  client:
+    service-url:
+      #设置与eureka server 交互的地址查询服务和注册服务都需要依赖的地址
+      defaultZone: http://127.0.0.1:8001/eureka/

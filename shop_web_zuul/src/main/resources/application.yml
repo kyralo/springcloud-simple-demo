@@ -1,0 +1,24 @@
+server:
+  port: 8091
+
+spring:
+  application:
+    name: shop-web-zull
+
+eureka:
+  #eureka服务端的实例名称
+  hostname: 127.0.0.1
+  client:
+    service‐url:
+      defaultZone: http://127.0.0.1:8001/eureka/
+
+
+zuul:
+  routes:
+    service-a:
+      path: /service/a/**
+      serviceId: shop-web-feign-user
+    service-b:
+      path: /service/b/**
+      serviceId: shop-web-ribbon-user
+
