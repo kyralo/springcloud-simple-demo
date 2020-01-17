@@ -1,0 +1,70 @@
+server:
+  port: 9091
+
+spring:
+  application:
+    name: shop-web-gateway
+
+  # 路由配置
+  cloud:
+    gateway:
+      globalcors:
+        cor-configurations:
+          # 匹配所有请求
+          '[/**]':
+            # 跨域处理 允许所有的域(域名)
+            allowedOrigins: "*"
+            # 支持的方法
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+
+      routes:
+        # 唯一标识符
+        - id: shop-web-feign-user
+          #用户请求路由到该服务指定路由的服务
+          # uri: http://127.0.0.1:8001
+
+          #lb: 使用LoadBalancerClient 实现负载均衡, 后面[name]是微服务的名称[主要用于集群环境]
+          uri: lb://shop-web-feign-user
+
+          # 路由断言, 路由规则匹配
+          predicates:
+          # 用户请求的域名规则配置
+          #   - Host=
+          -Path=/a/**
+
+        # 唯一标识符
+        - id: shop-web-ribbon-user
+          #用户请求路由到该服务指定路由的服务
+          # uri: http://127.0.0.1:8001
+
+          #lb: 使用LoadBalancerClient 实现负载均衡, 后面[name]是微服务的名称[主要用于集群环境]
+          uri: lb://shop-web-ribbon-user
+
+          # 路由断言, 路由规则匹配
+          predicates:
+          # 用户请求的域名规则配置
+          #   - Host=
+          -Path=/b/**
+
+
+          # 该路径由微服务网关自动添加/api前缀,每次请求真实微服务网关的时候将/api去掉
+          filters:
+          # (PrefixPath, StripPrefix 两者取一)
+          # 请求前缀
+          -PrefixPath=/service
+          #将请求路径中的第一个路径去掉,路径以/区分
+          # -StripPrefix=1
+
+
+
+eureka:
+  #eureka服务端的实例名称
+  hostname: 127.0.0.1
+  client:
+    service‐url:
+      defaultZone: http://127.0.0.1:8001/eureka/
+
